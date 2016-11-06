@@ -37,6 +37,12 @@ set history=5000 " 保存するコマンド履歴の数
 " バックスペースキーの有効化
 set backspace=indent,eol,start
 
+" 挿入モードでTABを挿入するとき、代わりに適切な数の空白を使う
+set expandtab
+
+" ファイルタイプ別のVimプラグイン/インデントを有効にする
+filetype plugin indent on
+
 " クリップボードからペースト時のインデント無効化設定
 if &term =~ "xterm"
     let &t_SI .= "\e[?2004h"
@@ -50,15 +56,27 @@ if &term =~ "xterm"
     inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
 endif
 
-set nocompatible
-filetype plugin indent off
-
 if has('vim_starting')
-  set runtimepath+=~/.vim/bundle/neobundle.vim
-endif 
+    " 初回起動時のみruntimepathにNeoBundleのパスを指定する
+    set runtimepath+=~/.vim/bundle/neobundle.vim/
 
-call neobundle#begin(expand('~/.vim/bundle'))
+    " NeoBundleが未インストールであればgit cloneする・・・・・・①
+    if !isdirectory(expand("~/.vim/bundle/neobundle.vim/"))
+        echo "install NeoBundle..."
+        :call system("git clone git://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim")
+    endif
+endif
+
+call neobundle#begin(expand('~/.vim/bundle/'))
+
+" インストールするVimプラグインを以下に記述
+" NeoBundle自身を管理
 NeoBundleFetch 'Shougo/neobundle.vim'
+"----------------------------------------------------------
+" ここに追加したいVimプラグインを記述する
+
+" 未インストールのVimプラグインがある場合、インストールするかどうかを尋ねてくれるようにする設定
+NeoBundleCheck
 
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neosnippet.vim'
@@ -73,6 +91,11 @@ NeoBundle 'tpope/vim-endwise'
 
 NeoBundle 'vim-scripts/twilight'
 NeoBundle 'thinca/vim-ref'
+
+" カラースキームmolokai
+NeoBundle 'tomasr/molokai'
+
+
 NeoBundleLazy 'clausreinke/typescript-tools', {
 			\ 'build' : 'npm install -g',
 			\ 'autoload' : {
@@ -93,17 +116,21 @@ NeoBundleLazy 'marcus/rsense', {
       \ },
       \ }
 
-let g:js_indent_typescript = 1
-let g:rsenseUseOmniFunc = 1
-
-" 挿入モードでTABを挿入するとき、代わりに適切な数の空白を使う
-set expandtab
-
-
+"----------------------------------------------------------
 
 call neobundle#end()
 
-" ファイル形式の検出の有効化する
-" ファイル形式別プラグインのロードを有効化する
-" ファイル形式別インデントのロードを有効化する
-filetype plugin indent on
+"----------------------------------------------------------
+" molokaiの設定
+"----------------------------------------------------------
+if neobundle#is_installed('molokai') " molokaiがインストールされていれば
+    colorscheme molokai " カラースキームにmolokaiを設定する
+endif
+
+set t_Co=256 " iTerm2など既に256色環境なら無くても良い
+syntax enable " 構文に色を付ける
+
+let g:js_indent_typescript = 1
+let g:rsenseUseOmniFunc = 1
+
+

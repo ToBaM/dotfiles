@@ -79,10 +79,12 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " 未インストールのVimプラグインがある場合、インストールするかどうかを尋ねてくれるようにする設定
 NeoBundleCheck
 
+NeoBundle 'Shougo/neocomplete.vim'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neosnippet.vim'
 " 静的解析
 NeoBundle 'scrooloose/syntastic'
+NeoBundle 'Townk/vim-autoclose'
 
 " メソッド定義元へのジャンプ
 NeoBundle 'szw/vim-tags'
@@ -95,7 +97,12 @@ NeoBundle 'thinca/vim-ref'
 
 " カラースキームmolokai
 NeoBundle 'tomasr/molokai'
+ 
+NeoBundle 'moll/vim-node'
+NeoBundle 'mattn/jscomplete-vim'
+NeoBundle 'myhere/vim-nodejs-complete'
 
+NeoBundle 'scrooloose/syntastic'
 
 NeoBundleLazy 'clausreinke/typescript-tools', {
 			\ 'build' : 'npm install -g',
@@ -110,6 +117,8 @@ NeoBundleLazy 'jason0x43/vim-js-indent', {
 			\ 'autoload' : {
 			\   'filetypes' : ['javascript', 'typescript', 'html'],
 			\}}
+
+NeoBundleLazy 'jelera/vim-javascript-syntax', {'autoload':{'filetypes':['javascript']}}
 
 NeoBundleLazy 'marcus/rsense', {
       \ 'autoload': {
@@ -128,11 +137,27 @@ if neobundle#is_installed('molokai') " molokaiがインストールされてい�
     colorscheme molokai " カラースキームにmolokaiを設定する
 endif
 
+autocmd FileType javascript :setl omnifunc=jscomplete#CompleteJS
+
 set t_Co=256 " iTerm2など既に256色環境なら無くても良い
 syntax enable " 構文に色を付ける
 
-let g:js_indent_typescript = 1
 let g:rsenseUseOmniFunc = 1
+
+let g:syntastic_check_on_open=0 "ファイルを開いたときはチェックしない
+let g:syntastic_check_on_save=1 "保存時にはチェック
+let g:syntastic_check_on_wq = 0 " wqではチェックしない
+let g:syntastic_auto_loc_list=1 "エラーがあったら自動でロケーションリストを開く
+let g:syntastic_loc_list_height=6 "エラー表示ウィンドウの高さ
+set statusline+=%#warningmsg# "エラーメッセージの書式
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_javascript_checkers = ['eslint'] "ESLintを使う
+let g:syntastic_mode_map = {
+      \ 'mode': 'active',
+      \ 'active_filetypes': ['javascript'],
+      \ 'passive_filetypes': []
+      \ }
 
 " ファイルタイプ関連を有効にする
 filetype plugin indent on

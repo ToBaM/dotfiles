@@ -79,9 +79,10 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 " 未インストールのVimプラグインがある場合、インストールするかどうかを尋ねてくれるようにする設定
 NeoBundleCheck
 
-NeoBundle 'Shougo/neocomplete.vim'
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/neosnippet.vim'
+NeoBundle 'Shougo/neocomplete'
+NeoBundle 'Shougo/unite'
+NeoBundle 'Shougo/neosnippet'
+NeoBundle 'Shougo/neosnippet-snippets'
 " 静的解析
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'Townk/vim-autoclose'
@@ -104,15 +105,6 @@ NeoBundle 'myhere/vim-nodejs-complete'
 
 NeoBundle 'scrooloose/syntastic'
 
-NeoBundleLazy 'clausreinke/typescript-tools', {
-			\ 'build' : 'npm install -g',
-			\ 'autoload' : {
-			\   'filetypes' : ['typescript'] }
-			\}
-NeoBundleLazy 'leafgarland/typescript-vim', {
-			\'autoload' : {
-			\'filetypes' : ['typescript'] }
-			\}
 NeoBundleLazy 'jason0x43/vim-js-indent', {
 			\ 'autoload' : {
 			\   'filetypes' : ['javascript', 'typescript', 'html'],
@@ -136,8 +128,6 @@ call neobundle#end()
 if neobundle#is_installed('molokai') " molokaiがインストールされていれば
     colorscheme molokai " カラースキームにmolokaiを設定する
 endif
-
-autocmd FileType javascript :setl omnifunc=jscomplete#CompleteJS
 
 set t_Co=256 " iTerm2など既に256色環境なら無くても良い
 syntax enable " 構文に色を付ける

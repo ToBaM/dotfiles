@@ -80,9 +80,12 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundleCheck
 
 NeoBundle 'Shougo/neocomplete'
-NeoBundle 'Shougo/unite'
+NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'Shougo/neosnippet-snippets'
+NeoBundle 'Shougo/neomru.vim'
+
+
 " 静的解析
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'Townk/vim-autoclose'
@@ -148,6 +151,19 @@ let g:syntastic_mode_map = {
       \ 'active_filetypes': ['javascript'],
       \ 'passive_filetypes': []
       \ }
+
+"----------------------------------------------------------
+" Uniteの設定
+" http://qiita.com/hide/items/77b9c1b0f29577d60397
+"----------------------------------------------------------
+let g:unite_enable_start_insert=1
+let g:unite_source_history_yank_enable =1
+let g:unite_source_file_mru_limit = 200
+nnoremap <silent> ,uy :<C-u>Unite history/yank<CR>
+nnoremap <silent> ,ub :<C-u>Unite buffer<CR>
+nnoremap <silent> ,uf :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+nnoremap <silent> ,ur :<C-u>Unite -buffer-name=register register<CR>
+nnoremap <silent> ,uu :<C-u>Unite file_mru buffer<CR>
 
 " ファイルタイプ関連を有効にする
 filetype plugin indent on

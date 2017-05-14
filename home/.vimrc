@@ -103,14 +103,12 @@ NeoBundle 'moll/vim-node'
 NeoBundle 'mattn/jscomplete-vim'
 NeoBundle 'myhere/vim-nodejs-complete'
 
-NeoBundle 'scrooloose/syntastic'
-
 NeoBundleLazy 'jason0x43/vim-js-indent', {
 			\ 'autoload' : {
 			\   'filetypes' : ['javascript', 'typescript', 'html'],
 			\}}
 
-NeoBundleLazy 'jelera/vim-javascript-syntax', {'autoload':{'filetypes':['javascript']}}
+NeoBundleLazy 'jelera/vim-javascript-syntax', {'autoload':{'filetypes':['javascript', 'jsx']}}
 
 NeoBundleLazy 'marcus/rsense', {
       \ 'autoload': {
@@ -142,7 +140,7 @@ let g:syntastic_loc_list_height=6 "エラー表示ウィンドウの高さ
 set statusline+=%#warningmsg# "エラーメッセージの書式
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
-let g:syntastic_javascript_checkers = ['eslint'] "ESLintを使う
+let g:syntastic_javascript_checkers = ['eslint','jslint'] "ESLintを使う
 let g:syntastic_mode_map = {
       \ 'mode': 'active',
       \ 'active_filetypes': ['javascript'],

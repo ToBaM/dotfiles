@@ -22,6 +22,10 @@ set hlsearch " 検索結果をハイライト
 " ESCキー2度押しでハイライトの切り替え
 nnoremap <silent><Esc><Esc> :<C-u>set nohlsearch!<CR>
 
+" vimrc
+nnoremap <Space>. :<C-u>edit $MYVIMRC<CR>
+nnoremap <Space>s. :<C-u>source $MYVIMRC<CR>
+
 set whichwrap=b,s,h,l,<,>,[,],~ " カーソルの左右移動で行末から次の行の行頭への移動が可能になる
 set number " 行番号を表示
 " set cursorline " カーソルラインをハイライト * 重い *　
@@ -31,6 +35,7 @@ nnoremap j gj
 nnoremap k gk
 nnoremap <down> gj
 nnoremap <up> gk
+
 
 set showmatch " 括弧の対応関係を一瞬表示する
 source $VIMRUNTIME/macros/matchit.vim " Vimの「%」を拡張する
@@ -49,12 +54,15 @@ if &term =~ "xterm"
     let &t_SI .= "\e[?2004h"
     let &t_EI .= "\e[?2004l"
     let &pastetoggle = "\e[201~"
-    function XTermPasteBegin(ret)
+    function! XTermPasteBegin(ret)
         set paste
         return a:ret
     endfunction
 
+    noremap <special> <expr> <Esc>[200~ XTermPasteBegin("0i")
     inoremap <special> <expr> <Esc>[200~ XTermPasteBegin("")
+    cnoremap <special> <Esc>[200~ <nop>
+    cnoremap <special> <Esc>[201~ <nop>
 endif
 
 if has('vim_starting')
